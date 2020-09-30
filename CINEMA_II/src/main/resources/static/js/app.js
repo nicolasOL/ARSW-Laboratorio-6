@@ -41,8 +41,9 @@ var app = (function () {
 	function getFunctionsByCinemaAndDate() {
           _cineSeleccionado = $("#input").val();
           _fechaSeleccionada = $("#date").val();
-          apiclient.getFunctionsByCinemaAndDate(_cineSeleccionado, _fechaSeleccionada, convertElementsToObject);
-          
+		  $.getScript(apiu, function(){
+				api.getFunctionsByCinemaAndDate(_cineSeleccionado, _fechaSeleccionada, convertElementsToObject);
+			});          
 		  
       }
 	
@@ -112,7 +113,9 @@ var app = (function () {
 	}
 	
 	function redibujarSala () {
-		apiclient.getFunctionsByCinemaAndDate(_cineSeleccionado, _fechaSeleccionada, dibujarSala);
+		$.getScript(apiu, function(){
+				api.getFunctionsByCinemaAndDate(_cineSeleccionado, _fechaSeleccionada, dibujarSala);
+			});
 	}
 	
 	function convertElementsToObject(functions) {
@@ -161,7 +164,24 @@ var app = (function () {
 		  
 		 
       }
-	  
+	 /* 
+	function saveUpdate (){
+		return $.ajax({
+			url: "/http://localhost:8080/cinemas/"+,
+			type: 'PUT',
+			data: '{"prop1":1000,"prop2":"papas"}',
+			contentType: "application/json"
+		});
+	}
+	
+	function createFunction (){
+		
+	}
+	
+	function deleteFunction (){
+		
+	}
+	  */
 	
 	return {
 		cambiarNombreCinema: cambiarNombreCinema,

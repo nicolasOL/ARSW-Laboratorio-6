@@ -131,4 +131,10 @@ public class AnotherCinemaPersistence implements CinemaPersitence {
 		
 	}
 
+	@Override
+	public void updateDateCinemaFunction(String name, CinemaFunction cf) throws CinemaPersistenceException {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -121,6 +121,9 @@ public class CinemaServices {
     public void updateCinemaByName(String name, Cinema cinema) throws CinemaPersistenceException {
     	cps.updateCinemaByName(name, cinema);
     }
-
+	
+	public void updateDateCinemaFunction(String name, CinemaFunction cf) throws CinemaPersistenceException {
+    	cps.updateDateCinemaFunction(name, cf);
+    }
 
 }

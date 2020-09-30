@@ -123,5 +123,16 @@ public ResponseEntity<?> updateCinemaByName(@PathVariable String name, @RequestB
 }
 
 
+@RequestMapping(value="/{nameC}/{movie}", method = RequestMethod.PUT)	
+public ResponseEntity<?> updateDateCinemaFunction(@PathVariable String nameC,@PathVariable String movie, @RequestBody CinemaFunction cf){
+	try {
+		cinemaServices.updateDateCinemaFunction(nameC, cf);
+	} catch (CinemaPersistenceException e) {
+		Logger.getLogger(CinemaAPIController.class.getName()).log(Level.SEVERE, null, e);
+        return new ResponseEntity<>(e.getMessage(),HttpStatus.FORBIDDEN); 
+	}
+	return new ResponseEntity<>(HttpStatus.CREATED);
+}
+
 }
 

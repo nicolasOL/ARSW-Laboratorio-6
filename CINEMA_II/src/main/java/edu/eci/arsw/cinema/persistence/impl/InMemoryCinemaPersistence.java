@@ -161,6 +161,17 @@ public class InMemoryCinemaPersistence implements CinemaPersitence {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override	
+	public void updateDateCinemaFunction(String name,CinemaFunction cf) throws CinemaPersistenceException{
+		List<CinemaFunction> listac=cinemas.get(name).getFunctions();
+		for (CinemaFunction cinema : listac) {
+			if (cinema.getMovie().equals(cf.getMovie())) {
+				System.out.println(cf.getDate());
+				cinema.setDate(cf.getDate());
+			}
+		}
+	}
 
 
 

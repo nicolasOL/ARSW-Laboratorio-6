@@ -1,6 +1,7 @@
 var Url = 'http://localhost:8080/cinemas/';
-apiclient = (function () {
+api = (function () {
     var f=[]
+	var g=[]
     return {
         getFunctionsByCinema: function (name, callback) {
                 $.get(Url+name,function(data){
@@ -9,16 +10,13 @@ apiclient = (function () {
                 return callback(f[name])
         },
 		getFunctionsByCinemaAndDate: function (name, date, callback) {
-			var g=[];
-			console.log(name);
-			console.log(date);
-                $.get(Url+name+'/'+date,function(data)
-					
-                    g.push(data);
-					
-                });
-				console.log(g);
-                return callback(g[0])
+			
+			//console.log(name);
+			//console.log(date);
+			
+			$.getJSON(Url + name +"/"+ date, function (data) {
+				callback(data);
+			});
         }
 		
 		
