@@ -1,11 +1,13 @@
 var app = (function () {
+	var apiu = "js/apiclient.js";
+	
+	//Para primera parte
+	
 	var _cineSeleccionado;
 	
 	var _fechaSeleccionada;
 	
 	var _listaFunciones = [];
-	
-	var apiu = "js/apiclient.js";
 	
 	var cambiarNombreCinema = function (){
 		_cineSeleccionado = nuevoNombre;
@@ -15,7 +17,18 @@ var app = (function () {
 		_fechaSeleccionada = nuevaFecha;
 	};
 	
+	//Para segunda parte
+	
 	var _peliculaSeleccionada;
+	
+	var _generoSeleccionado;
+	
+	var _fechaSeleccionadaSaveUpdate;
+	
+	var _seatsSeleccionados = [[true, true, true, true, true, true, true, true, true, true, true, true], [true, true, true, true, true, true, true, true, true, true, true, true], [true, true, true, true, true, true, true, true, true, true, true, true], [true, true, true, true, true, true, true, true, true, true, true, true], [true, true, true, true, true, true, true, true, true, true, true, true], [true, true, true, true, true, true, true, true, true, true, true, true], [true, true, true, true, true, true, true, true, true, true, true, true]];
+	
+	//Para tercera parte
+	var tipo;
 	
 	/*
 	function getFunctionsByCinema(){
@@ -58,6 +71,7 @@ var app = (function () {
 			 
           });
 		var funcion =  functions.filter(funct => funct.movie.name == _peliculaSeleccionada);
+		console.log()
 		var asientos = funcion[0].seats;
 		console.log(asientos);
 		var c = document.getElementById("myCanvas");
@@ -107,8 +121,11 @@ var app = (function () {
 		return cont;
 	}
 	
-	function asignarPelicula (functions){
+	function asignarPelicula (functions, genero, fecha, puestos){
 		_peliculaSeleccionada = functions;
+		_generoSeleccionado = genero;
+		_fechaSeleccionadaSaveUpdate = fecha;
+		//_seatsSeleccionados = puestos;
 		$("#movieSeleccionado").text(_peliculaSeleccionada);
 	}
 	
@@ -134,11 +151,12 @@ var app = (function () {
 		  
 		  for(var i=0; i<functions.length; i++){
 			movieName = functions[i].movie.name;
-			console.log(movieName);
             gender = functions[i].movie.genre;
             hour = functions[i].date.substring(11, 16);
+			fecha = functions[i].date;
+			puestos = functions[i].seats;
 			disponibilidad = isDisponible(functions[i].seats);
-			var row = '<tr><td>' + movieName + '</td><td>' + gender + '</td><td>' + hour + '</td><td>' + true +'</td><td>'+"<button type='button' class='btn btn-primary'onclick='app.asignarPelicula( \""+  movieName + "\"); app.redibujarSala();' > "+'</td><td>'+'</tr>';
+			var row = '<tr><td>' + movieName + '</td><td>' + gender + '</td><td>' + hour + '</td><td>' + true +'</td><td>'+"<button type='button' class='btn btn-primary'onclick='app.asignarPelicula(\""+ movieName +"\",\""+gender+"\",\""+fecha+"\",\""+puestos+"\"); app.redibujarSala();' > "+'</td><td>'+'</tr>';
 			$("#table").append(row);
 		}
 		  
@@ -164,30 +182,96 @@ var app = (function () {
 		  
 		 
       }
-	 /* 
+	  
 	function saveUpdate (){
-		return $.ajax({
-			url: "/http://localhost:8080/cinemas/"+,
-			type: 'PUT',
-			data: '{"prop1":1000,"prop2":"papas"}',
-			contentType: "application/json"
-		});
+		
+		if(tipo == "actualizar"){
+			_fechaNueva = $("#function").val();
+			var cinemaFunction = {
+			"movie": {"name": _peliculaSeleccionada, "genre": _generoSeleccionado},
+			"seats": _seatsSeleccionados,
+			"date": _fechaSeleccionada + " " +_fechaNueva
+			};
+			$.getScript(apiu, function(){
+					api.updateDateCinemaFunction(_cineSeleccionado, _peliculaSeleccionada, cinemaFunction, actualizarLista);
+				});
+		}else if(tipo == "guardar"){
+			_fechaNueva = $("#function").val();
+			_peliculaSeleccionada2 = $("#nombrePelicula").val();
+			_generoSeleccionado2 = $("#genre").val();
+			var cinemaFunction = {
+			"movie": {"name": _peliculaSeleccionada2, "genre": _generoSeleccionado2},
+			"seats": _seatsSeleccionados,
+			"date": _fechaSeleccionada + " " +_fechaNueva
+			};
+			$.getScript(apiu, function(){
+					api.insertDateCinemaFunction(_cineSeleccionado, cinemaFunction, actualizarLista);
+				});
+		}
+	}
+	
+	function actualizarLista(){
+		$("table").find("tr:gt(0)").remove();
+		$.getScript(apiu, function(){
+				api.getFunctionsByCinemaAndDate(_cineSeleccionado, _fechaSeleccionada, convertElementsToObject);
+			});    
+	}
+	
+	function getFunctions (functions){		
+		
 	}
 	
 	function createFunction (){
+		var desplegar = $("#desplegar");
+        var labelMovieName = '<label id="labelMovieName" for="nombre">Movie name:</label>'
+        var labelMovieGenre = '<label id="labelMovieGenre" for="nombre">Movie genre:</label>'
+        var movieName = '<input type="text" id="nombrePelicula" name="nombrePelicula" placeholder="Movie name">';
+        var genre = '<input type="text" id="genre" name="genre" placeholder="Genre">';
+        var br1 = '<br id="br1">';
+        var br2 = '<br id="br2">';
+
+        desplegar.append(labelMovieName);
+        desplegar.append(movieName);
+        desplegar.append(br1);
+        desplegar.append(labelMovieGenre);
+        desplegar.append(genre);
+        desplegar.append(br2);
 		
 	}
 	
 	function deleteFunction (){
-		
+		var cinemaFunction = {
+			"movie": {"name": _peliculaSeleccionada, "genre": _generoSeleccionado},
+			"seats": _seatsSeleccionados,
+			"date": _fechaSeleccionada + " " +_fechaNueva
+			};
+			$.getScript(apiu, function(){
+					api.deleteCinemaFunction(_cineSeleccionado, cinemaFunction, actualizarLista);
+				});
 	}
-	  */
+	  
+	function actualizar() {
+		if(tipo!="guardar"){
+			tipo = "actualizar";
+		}
+	}
+	
+	function guardar() {
+		tipo = "guardar";
+	}
+
+	
 	
 	return {
 		cambiarNombreCinema: cambiarNombreCinema,
 		cambiarFecha: cambiarFecha,
 		getFunctionsByCinemaAndDate: getFunctionsByCinemaAndDate,
 		asignarPelicula: asignarPelicula,
-		redibujarSala: redibujarSala
+		redibujarSala: redibujarSala,
+		saveUpdate: saveUpdate,
+		createFunction: createFunction,
+		actualizar: actualizar,
+		guardar: guardar,
+		deleteFunction: deleteFunction
 	};
 })();

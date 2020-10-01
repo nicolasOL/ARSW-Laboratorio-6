@@ -124,6 +124,11 @@ public class CinemaServices {
 	
 	public void updateDateCinemaFunction(String name, CinemaFunction cf) throws CinemaPersistenceException {
     	cps.updateDateCinemaFunction(name, cf);
+    	System.out.println("dsadsadsada");
     }
+	public void deleteCinemaFunction(String name, CinemaFunction cf) throws CinemaPersistenceException{
+		cps.deleteCinemaFunction(name,cf);
+		
+	}
 
 }

@@ -43,4 +43,8 @@ public class Cinema {
     public void addCinemaFunction(CinemaFunction function) {
     	functions.add(function);
     }
+    
+    public void deleteCinemaFunction(CinemaFunction function) {
+    	functions.remove(function);
+    }
 }

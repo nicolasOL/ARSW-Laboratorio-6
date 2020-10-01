@@ -63,16 +63,16 @@
 			
 			<div class="col-md-6"></div>
 			
-			<div class="col-md-6" style="width:540px; margin:auto; border: 1px solid black;">
+			<div id ="desplegar" class="col-md-6" style="width:540px; margin:auto; border: 1px solid black;">
 			
 				<h2>Administrator mode:</h2>
 				<label for="input"> Edit Function:</label>
 				<input type="text" id ="function" placeholder="new Hour">
-				<button type="submit" id="saveUpdate" onclick="app.saveUpdate()">
+				<button type="submit" id="saveUpdate" onclick="app.actualizar();app.saveUpdate()">
 				Save/Update
 				</button>
 				<br></br>
-				<button type="submit" id="createFunction" onclick="app.createFunction()">
+				<button type="submit" id="createFunction" onclick="app.guardar();app.createFunction()">
 				Create new function
 				</button>
 				<button type="submit" id="deleteFunction" onclick="app.deleteFunction()">

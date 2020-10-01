@@ -16,6 +16,7 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -166,11 +167,26 @@ public class InMemoryCinemaPersistence implements CinemaPersitence {
 	public void updateDateCinemaFunction(String name,CinemaFunction cf) throws CinemaPersistenceException{
 		List<CinemaFunction> listac=cinemas.get(name).getFunctions();
 		for (CinemaFunction cinema : listac) {
-			if (cinema.getMovie().equals(cf.getMovie())) {
+			System.out.println(cinema.getMovie().getName());
+			if (cinema.getMovie().getName().equals(cf.getMovie().getName())) {
 				System.out.println(cf.getDate());
 				cinema.setDate(cf.getDate());
 			}
 		}
+	}
+
+	@Override
+	public void deleteCinemaFunction(String name, CinemaFunction cf) throws CinemaPersistenceException{
+		if(!cinemas.containsKey(name)) {
+			throw new CinemaPersistenceException("El cinema no se encuentra");
+		}
+		
+		for (CinemaFunction  cinema : cinemas.get(name).getFunctions()){
+			if(cinema.getMovie().getName().equals(cf.getMovie().getName())) {
+				cinemas.get(name).deleteCinemaFunction(cinema);
+			}
+		}
+		
 	}
 
 

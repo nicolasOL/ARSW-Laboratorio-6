@@ -134,5 +134,17 @@ public ResponseEntity<?> updateDateCinemaFunction(@PathVariable String nameC,@Pa
 	return new ResponseEntity<>(HttpStatus.CREATED);
 }
 
+@RequestMapping(value="/{name}", method = RequestMethod.DELETE)	
+public ResponseEntity<?> updateDateCinemaFunction(@PathVariable String name, @RequestBody CinemaFunction cf){
+	try {
+		cinemaServices.deleteCinemaFunction(name, cf);
+	} catch (CinemaPersistenceException e) {
+		Logger.getLogger(CinemaAPIController.class.getName()).log(Level.SEVERE, null, e);
+        return new ResponseEntity<>(e.getMessage(),HttpStatus.FORBIDDEN); 
+	}
+	return new ResponseEntity<>(HttpStatus.CREATED);
+}
+
+
 }
 

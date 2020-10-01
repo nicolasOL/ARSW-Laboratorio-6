@@ -137,4 +137,10 @@ public class AnotherCinemaPersistence implements CinemaPersitence {
 		
 	}
 
+	@Override
+	public void deleteCinemaFunction(String name, CinemaFunction cf) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
